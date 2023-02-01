@@ -1,0 +1,19 @@
+# 가장 긴 반복 문자 대체
+# https://leetcode.com/problems/longest-repeating-character-replacement
+import collections
+
+
+class Solution:
+    # 투포인터, 슬라이딩윈도우, counter
+    def characterReplacement(self, s: str, k: int) -> int:
+        left = right = 0
+        counts = collections.Counter()
+        for right in range(1, len(s) + 1):
+            counts[s[right - 1]] += 1
+            max_char_n = counts.most_common(1)[0][1]
+
+            if right - left - max_char_n > k:
+                counts[s[left]] -= 1
+                left += 1
+
+        return right - left
